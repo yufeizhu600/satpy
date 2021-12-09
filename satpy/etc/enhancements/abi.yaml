@@ -155,3 +155,57 @@ enhancements:
           threshold: 242.0
           min_in: 163.0
           max_in: 330.0
+
+  # GOES-R L2+ Fire Detection and Characterization product
+  # https://www.goes-r.gov/education/docs/fs_fire.pdf
+  fdc_mask:
+    name: FDC_Mask
+    operations:
+      - name: palettize
+        method: !!python/name:satpy.enhancements.palettize
+        kwargs:
+          palettes:
+            - {'values': [0,    # unprocessed_pixel
+                          10,   # good_fire_pixel
+                          11,   # saturated_fire_pixel
+                          12,   # cloud_contaminated_fire_pixel
+                          13,   # high_probability_fire_pixel
+                          14,   # medium_probability_fire_pixel 
+                          15,   # low_probability_fire_pixel
+                          30,   # temporally_filtered_good_fire_pixel
+                          31,   # temporally_filtered_saturated_fire_pixel
+                          32,   # temporally_filtered_cloud_contaminated_fire_pixel
+                          33,   # temporally_filtered_ high_probability_fire_pixel
+                          34,   # temporally_filtered_medium_pwrobability_fire_pixel 
+                          35,   # temporally_filtered_low_probability_fire_pixel  
+                          40,   # off_earth_pixel
+                          50,   # LZA_block_out_zone
+                          60,   # SZA_or_glint_angle_block_out_zone
+                          100,  # processed_no_fire_pixel
+                          150,  # water
+                          170,  # no_background_value_could_be_computed
+                          200,  # cloud_pixel_detected
+                         ],
+               'colors': [[  0,   0,   0],  # 0
+                          [255,   0,   0],  # 10
+                          [255, 255,   0],  # 11
+                          [255,   0, 255],  # 12
+                          [255, 128,   0],  # 13
+                          [ 46, 189, 255],  # 14 
+                          [ 46,   0, 255],  # 15
+                          [255,   0,   0],  # 30
+                          [255, 255,   0],  # 31
+                          [255,   0, 255],  # 32
+                          [255, 128,   0],  # 33
+                          [ 46, 189, 255],  # 34 
+                          [ 46,   0, 255],  # 35
+                          [ 70,  70,  70],  # 40
+                          [ 70,  70,  70],  # 50
+                          [ 70,  70,  70],  # 60
+                          [  0,  94,   0],  # 100
+                          [  4,  22,  60],  # 150
+                          [ 80,   0,  80],  # 170
+                          [128, 128, 128],  # 200
+                         ],
+               'color_scale': 255,
+              }

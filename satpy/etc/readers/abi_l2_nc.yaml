@@ -234,22 +234,22 @@ datasets:
 
 # --- Fire (Hot Spot Characterization) Products ---
   fire_area:
-    name: Area
+    name: FDC_Area
     file_type: abi_l2_fdc
     file_key: Area
 
   fire_temp:
-    name: Temp
+    name: FDC_Temp
     file_type: abi_l2_fdc
     file_key: Temp
 
   radiative_power:
-    name: Power
+    name: FDC_Power
     file_type: abi_l2_fdc
     file_key: Power
 
   fire_mask:
-    name: Mask
+    name: FDC_Mask
     file_type: abi_l2_fdc
     file_key: Mask
 
