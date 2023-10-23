@@ -37,7 +37,7 @@ file_types:
          - '{mission_id:3s}_OL_1_{datatype_id:_<6s}_{start_time:%Y%m%dT%H%M%S}_{end_time:%Y%m%dT%H%M%S}_{creation_time:%Y%m%dT%H%M%S}_{duration:4d}_{cycle:3d}_{relative_orbit:3d}_{frame:4d}_{centre:3s}_{platform_mode:1s}_{timeliness:2s}_{collection:3s}.SEN3/tie_meteo.nc'
          - '{mission_id:3s}_OL_1_{datatype_id:_<6s}_{start_time:%Y%m%dT%H%M%S}_{end_time:%Y%m%dT%H%M%S}_{creation_time:%Y%m%dT%H%M%S}_{duration:4d}_{cycle:3d}_{relative_orbit:3d}______{centre:3s}_{platform_mode:1s}_{timeliness:2s}_{collection:3s}.SEN3/tie_meteo.nc'
     esa_quality_flags:
-        file_reader: !!python/name:satpy.readers.olci_nc.QualityFlags
+        file_reader: !!python/name:satpy.readers.olci_nc.NCOLCI1B
         file_patterns:
          - '{mission_id:3s}_OL_1_{datatype_id:_<6s}_{start_time:%Y%m%dT%H%M%S}_{end_time:%Y%m%dT%H%M%S}_{creation_time:%Y%m%dT%H%M%S}_{duration:4d}_{cycle:3d}_{relative_orbit:3d}_{frame:4d}_{centre:3s}_{platform_mode:1s}_{timeliness:2s}_{collection:3s}.SEN3/qualityFlags.nc'
          - '{mission_id:3s}_OL_1_{datatype_id:_<6s}_{start_time:%Y%m%dT%H%M%S}_{end_time:%Y%m%dT%H%M%S}_{creation_time:%Y%m%dT%H%M%S}_{duration:4d}_{cycle:3d}_{relative_orbit:3d}______{centre:3s}_{platform_mode:1s}_{timeliness:2s}_{collection:3s}.SEN3/qualityFlags.nc'
