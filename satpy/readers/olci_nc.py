@@ -184,6 +184,21 @@ class NCOLCI1B(NCOLCIChannelBase):
         return da.map_blocks(self._get_items, d_index.data,
                              solar_flux=solar_flux, dtype=solar_flux.dtype)
 
+
+    def get_quality_flags(self, quality_flags, items=None):
+        """Get the quality flags bitmask."""
+        if items is None:
+            items = ["land", "coastline", "fresh_inland_water", "tidal_region", "bright", "straylight_risk", "invalid", "cosmetic",
+                     "duplicated", "sun-glint_risk", "dubious", "saturated@Oa01", "saturated@Oa02", "saturated@Oa03",
+                     "saturated@Oa04", "saturated@Oa05", "saturated@Oa06", "saturated@Oa07", "saturated@Oa08", "saturated@Oa09",
+                     "saturated@Oa10", "saturated@Oa11", "saturated@Oa12", "saturated@Oa13", "saturated@Oa14", "saturated@Oa15",
+                     "saturated@Oa16", "saturated@Oa17", "saturated@Oa18", "saturated@Oa19", "saturated@Oa20", "saturated@Oa21"]
+
+        bflags = BitFlags(quality_flags)
+
+        return reduce(np.logical_or, [bflags[item] for item in items])
+
+
     def get_dataset(self, key, info):
         """Load a dataset."""
         if self.channel != key["name"]:
@@ -401,3 +416,5 @@ class NCOLCIMeteo(NCOLCILowResData):
 
         values.attrs.update(key.to_dict())
         return values
+
+

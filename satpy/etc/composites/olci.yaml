@@ -146,3 +146,11 @@ composites:
     - name: 'Oa03'
       modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
     standard_name: ocean_color
+
+  mci_derived_chla:
+    compositor: !!python/name:satpy.composites.olci.MCIDerivedChla
+    prerequisites:
+    - name: 'Oa10'
+    - name: 'Oa11'
+    - name: 'Oa12'
+    standard_name: mci_derived_chla
