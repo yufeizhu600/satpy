@@ -443,3 +443,11 @@ datasets:
     coordinates: [longitude, latitude]
     file_type: esa_quality_flags
 
+  mask:
+    name: mask
+    sensor: olci
+    resolution: 300
+    coordinates: [longitude, latitude]
+    file_type: esa_quality_flags
+    nc_key: quality_flags
+
