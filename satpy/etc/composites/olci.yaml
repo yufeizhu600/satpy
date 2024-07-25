@@ -1,6 +1,5 @@
 sensor_name: visir/olci
 
-
 modifiers:
 
   rayleigh_corrected:
@@ -147,10 +146,68 @@ composites:
       modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
     standard_name: ocean_color
 
+  colorized_chl_nn:
+    compositor: !!python/name:satpy.composites.SingleBandCompositor
+    prerequisites:
+      - name: chl_nn
+    standard_name: colorized_chl
+
+  colorized_chl_oc4me:
+    compositor: !!python/name:satpy.composites.SingleBandCompositor
+    prerequisites:
+      - name: chl_oc4me
+    standard_name: colorized_chl
+
+  mci:
+    compositor: !!python/name:satpy.composites.olci.MaxChlIndex
+    prerequisites:
+    - name: 'Oa10'
+      calibration: radiance
+    - name: 'Oa11'
+      calibration: radiance
+    - name: 'Oa12'
+      calibration: radiance
+    standard_name: mci
+
+  mci_slope:
+    compositor: !!python/name:satpy.composites.olci.MCISlope
+    prerequisites:
+    - name: 'Oa10'
+      calibration: radiance
+    - name: 'Oa11'
+      calibration: radiance
+    - name: 'Oa12'
+      calibration: radiance
+    standard_name: mci_slope
+
   mci_derived_chla:
     compositor: !!python/name:satpy.composites.olci.MCIDerivedChla
     prerequisites:
     - name: 'Oa10'
+      calibration: radiance
     - name: 'Oa11'
+      calibration: radiance
     - name: 'Oa12'
+      calibration: radiance
     standard_name: mci_derived_chla
+
+  colorized_mci_derived_chla:
+    compositor: !!python/name:satpy.composites.SingleBandCompositor
+    prerequisites:
+      - name: mci_derived_chla
+    standard_name: colorized_chla
+
+  palettized_mci_derived_chla:
+    compositor: !!python/name:satpy.composites.SingleBandCompositor
+    prerequisites:
+      - name: mci_derived_chla
+    standard_name: palettized_chla
+
+  ndwi:
+    compositor: !!python/name:satpy.composites.olci.NormalizedDifferenceWaterIndex
+    prerequisites:
+    - name: 'Oa16'
+      calibration: radiance
+    - name: 'Oa17'
+      calibration: radiance
+    standard_name: ndwi
