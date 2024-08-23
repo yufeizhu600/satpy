@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2016 Satpy developers
+# Copyright (c) 2016-2023 Satpy developers
 #
 # This file is part of satpy.
 #
@@ -71,7 +71,7 @@ WQSF_FLAG_LIST = ["INVALID", "WATER", "LAND", "CLOUD", "SNOW_ICE", "INLAND_WATER
     "WV_FAIL", "PAR_FAIL", "AC_FAIL", "OC4ME_FAIL", "OCNN_FAIL", "Extra_1", "KDM_FAIL", "Extra_2",
     "CLOUD_AMBIGUOUS", "CLOUD_MARGIN", "BPAC_ON", "WHITE_SCATT", "LOWRW", "HIGHRW"]
 
-DEFAULT_WQSF_MASK_ITEMS = ["INVALID", "SNOW_ICE", "INLAND_WATER", "SUSPECT", "AC_FAIL", "CLOUD", 
+DEFAULT_WQSF_MASK_ITEMS = ["INVALID", "SNOW_ICE", "INLAND_WATER", "SUSPECT", "AC_FAIL", "CLOUD",
     "HISOLZEN", "OCNN_FAIL", "CLOUD_MARGIN", "CLOUD_AMBIGUOUS", "LOWRW", "LAND"]
 
 logger = logging.getLogger(__name__)
@@ -91,9 +91,16 @@ class BitFlags:
         self._value = value
 
         if flag_list is None:
-            flag_list = WQSF_FLAG_LIST
-
-        self.meaning = {f: i for i, f in enumerate(flag_list)}
+            try:
+                meanings = value.attrs["flag_meanings"].split()
+                masks = value.attrs["flag_masks"]
+            except (AttributeError, KeyError):
+                meanings = WQSF_FLAG_LIST
+                self.meaning = {meaning: mask for mask, meaning in enumerate(meanings)}
+            else:
+                self.meaning = {meaning: int(np.log2(mask)) for meaning, mask in zip(meanings, masks)}
+        else:
+            self.meaning = {meaning: mask for mask, meaning in enumerate(flag_list)}
 
     def __getitem__(self, item):
         """Get the item."""
@@ -208,7 +215,6 @@ class NCOLCI1B(NCOLCIChannelBase):
 
     def get_dataset(self, key, info):
         """Load a dataset."""
-        logger.debug(f"{self.channel=}, {key['name']=}")
         if self.channel is not None and self.channel != key["name"]:
             return
 
@@ -294,8 +300,16 @@ class NCOLCILowResData(NCOLCIBase):
                  engine=None, **kwargs):
         """Init the file handler."""
         super().__init__(filename, filename_info, filetype_info, engine)
-        self.l_step = self.nc.attrs["al_subsampling_factor"]
-        self.c_step = self.nc.attrs["ac_subsampling_factor"]
+
+    @property
+    def l_step(self):
+        """Get the line step."""
+        return self.nc.attrs["al_subsampling_factor"]
+
+    @property
+    def c_step(self):
+        """Get the column step."""
+        return self.nc.attrs["ac_subsampling_factor"]
 
     def _do_interpolate(self, data):
 
